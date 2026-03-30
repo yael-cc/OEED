@@ -26,7 +26,7 @@ Este proyecto fue desarrollado como proyecto escolar, nombrado **Organizador Esc
 
 1.  **Clonar el repositorio:**
     ```bash
-    git clone [https://github.com/tu-usuario/OEED_ITT.git](https://github.com/tu-usuario/OEED_ITT.git)
+    git clone [https://github.com/yael-cc/OEED_ITT.git])
     ```
 
 2.  **Configurar variables de entorno:**
@@ -50,4 +50,4 @@ Al ser un proyecto de aprendizaje inicial, tengo identificadas las siguientes me
 * Mejorar la validación de formularios en el cliente.
 
 ---
-**Desarrollado por Cuevas Cruz Luis Angel Yael** - Estudiante de Ingeniería en Sistemas Computacionales.
+**Desarrollado por Cuevas Cruz Luis Angel Yael** - Estudiante egresado de Ingeniería en Sistemas Computacionales.
