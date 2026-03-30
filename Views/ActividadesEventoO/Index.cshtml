@@ -1,0 +1,151 @@
+﻿@model IEnumerable<OEED_ITT.Models.ActividadesEvento>
+
+@{
+    Layout = "~/Views/Shared/_LayoutO.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #EAF6EA;
+            color: #475148;
+            font-family: Arial, sans-serif;
+        }
+
+        .table-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            background-color: #FAFFF9;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        th {
+            background-color: #FAFFF9;
+            color: #475148;
+            text-align: center;
+        }
+
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(87, 112, 82, 0.1);
+        }
+
+        h4 {
+            color: #537052;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary {
+            background-color: #537052;
+            color: #FAFFF9;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .btn-primary:hover {
+                background-color: #475148;
+            }
+
+        .btn-secondary {
+            background-color: #859C80;
+            color: #FAFFF9;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .btn-secondary:hover {
+                background-color: #6b7c65;
+            }
+
+        .activity-icon {
+            font-size: 24px;
+            color: #537052;
+        }
+
+        .description-column {
+            max-width: 300px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="table-container">
+        <h4>Cronograma de Actividades del Evento</h4>
+        @if (ViewBag.CondicionEvento == true) {
+            <div>
+                <a asp-controller="ActividadesEventoO" asp-action="Create" asp-route-idEvento="@ViewBag.IdEvento" class="btn-primary">Agregar actividad</a>
+            </div>
+        }
+        <br>
+        @if (Model.Any())
+        {
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Actividad</th>
+                        <th>Descripcion</th>
+                        <th>Inicio</th>
+                        <th>Fin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><i class="bi bi-calendar-event activity-icon"></i></td>
+                        <td>@Html.DisplayFor(modelItem => item.NombreActividad)</td>
+                        <td class="description-column">@Html.DisplayFor(modelItem => item.DescripcionActividad)</td>
+                        <td>@Html.DisplayFor(modelItem => item.HoraInicio)</td>
+                        <td>@Html.DisplayFor(modelItem => item.HoraFin)</td>
+                        @if (item.IdEventoNavigation.IdEstadoEvento != 2)
+                        {
+                            <td>
+                                <a asp-controller="ActividadesEventoO" asp-action="Borrar" asp-route-id="@item.IdActividad" class="btn btn-danger btn-sm">Eliminar</a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>---</td>
+                        }
+                        </tr>
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info" role="alert">
+                No hay actividades en este evento para mostrar.
+            </div>
+        }
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+</body>
+</html>

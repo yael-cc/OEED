@@ -1,0 +1,128 @@
+﻿@model OEED_ITT.Models.Evento
+@using OEED_ITT.Helpers
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Details</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #EAF6EA;
+            color: #537052;
+        }
+
+        .containerFF {
+            margin-top: 50px;
+        }
+
+        .evento-imagen {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="containerFF">
+        <h4 class="mb-4">Evento</h4>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-6">
+                <dl class="row">
+                    <dt class="col-sm-4">Nombre</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.NombreEvento)</dd>
+
+                    <dt class="col-sm-4">Descripción</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.DescripcionEvento)</dd>
+
+                    <dt class="col-sm-4">Fecha</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.FechaEvento)</dd>
+
+                    <dt class="col-sm-4">Comienzo</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.HoraInicioEvento)</dd>
+
+                    <dt class="col-sm-4">Finalización</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.HoraFinEvento)</dd>
+
+                    <dt class="col-sm-4">Num. Máximo</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.NumMaxEvento)</dd>
+
+                    <dt class="col-sm-4">Estado</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.oEstado.NombreEstadoEvento)</dd>
+
+                    <dt class="col-sm-4">Tipo</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.oTipoEvento.NombreTipoEvento)</dd>
+
+                    <dt class="col-sm-4">Departamento encargado</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.oDepartamento.Nombre)</dd>
+
+                    <dt class="col-sm-4">Lugar</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.oLugar.NombreLugar)</dd>
+                </dl>
+            </div>
+            <div class="col-md-6 text-center">
+                @if (!string.IsNullOrEmpty(Model.Imagen))
+                {
+                    @if (!string.IsNullOrEmpty(Model.Imagen))
+                    {
+                        if (Uri.TryCreate(Model.Imagen, UriKind.Absolute, out Uri imageUrl))
+                        {
+                            // Si la cadena es una URL válida, mostrarla como una imagen externa
+                            <img src="@Model.Imagen" alt="Imagen del Evento" style="max-width: 525px; max-height: 600px;" />
+                        }
+                        else
+                        {
+                            // Si la cadena no es una URL válida, determinar el tipo MIME según los prefijos comunes
+                            var imageDataPrefix = Model.Imagen.Substring(0, 5);
+
+                            string mimeType = "image/jpeg"; // Asumir JPEG por defecto
+                            if (imageDataPrefix.Contains("/9j/4")) // Común prefijo para JPEG
+                            {
+                                mimeType = "image/jpeg";
+                            }
+                            else if (imageDataPrefix.Contains("iVBOR")) // Común prefijo para PNG
+                            {
+                                mimeType = "image/png";
+                            }
+                            else if (imageDataPrefix.Contains("UklGR")) // Común prefijo para WebP
+                            {
+                                mimeType = "image/webp";
+                            }
+                            else if (imageDataPrefix.Contains("AAAAI")) // Común prefijo para AVIF
+                            {
+                                mimeType = "image/avif";
+                            }
+
+                            <img src="data:@mimeType;base64,@Model.Imagen" alt="Imagen del Evento" style="max-width: 525px; max-height: 600px;" />
+                        }
+                    }
+                }
+                else
+                {
+                    <span>No hay imagen disponible</span>
+                }
+            </div>
+        </div>
+
+        <div class="mt-4">
+            @if (Model.Inscripcions.Any(i => i.IdUsuario == UsuarioG.IdUsuario && i.IdEvento == Model.IdEvento && i.IdEstadoInscripcion == 1))
+            {
+                <a href="@Url.Action("Cancelar", "Inscripcion", new { idEvento = Model.IdEvento, idUsuario = UsuarioG.IdUsuario })" class="btn btn-danger">Cancelar</a>
+            }
+            else
+            {
+                <a href="@Url.Action("Create", "Inscripcion", new { idEvento = Model.IdEvento })" class="btn btn-primary">Inscribir</a>
+            }
+            <a asp-controller="ActividadesEvento" asp-action="Index" asp-route-idEvento="@Model.IdEvento" class="btn btn-primary">Actividades</a>
+            <a href="@Url.Action("IndexD")" class="btn btn-secondary ml-2">Regresar</a>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

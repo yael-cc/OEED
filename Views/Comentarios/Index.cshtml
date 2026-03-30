@@ -1,0 +1,91 @@
+﻿@model IEnumerable<OEED_ITT.Models.Comentario>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Comentarios</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: #EAF6EA;
+            color: #537052;
+        }
+
+        .comment-card {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+            .comment-header h5 {
+                margin: 0;
+                color: #537052;
+            }
+
+        .comment-body {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .comment-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .comment-footer .comment-date {
+                font-size: 0.9rem;
+                color: #888;
+            }
+
+            .comment-footer .comment-event, .comment-footer .comment-user {
+                font-size: 0.9rem;
+                color: #537052;
+            }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Comentarios</h2>
+        @foreach (var comentario in Model)
+        {
+            <div class="comment-card">
+                <div class="comment-header">
+                    <h5>@Html.DisplayFor(modelItem => comentario.AsuntoComentario)</h5>
+                </div>
+                <div class="comment-body">
+                    <p>@Html.DisplayFor(modelItem => comentario.DescripcionComentario)</p>
+                </div>
+                <div class="comment-footer">
+                    <div class="comment-date">
+                        @Html.DisplayFor(modelItem => comentario.FechaComentario)
+                    </div>
+                    <div class="comment-event">
+                        Evento: @Html.DisplayFor(modelItem => comentario.IdEventoNavigation.NombreEvento)
+                    </div>
+                    <div class="comment-user">
+                        Usuario: @Html.DisplayFor(modelItem => comentario.IdUsuarioNavigation.NombreUsuario)
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

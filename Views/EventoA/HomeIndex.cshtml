@@ -1,0 +1,90 @@
+﻿@model OEED_ITT.Models.Evento // Asegúrate de importar el namespace correcto para el modelo de Evento
+
+@{
+    Layout = "~/Views/Shared/_LayoutA.cshtml";
+    ViewData["Title"] = "Bienvenido";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="jumbotron text-center">
+            <h1 class="display-4">Bienvenido(a), @ViewData["NombreCompleto"]</h1>
+            <p class="lead">Su número de control es: @ViewData["IdUsuario"]</p>
+            <p class="lead">Usted es administrador del sistema OEED</p>
+        </div>
+
+        @if (Model != null)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h2>Ultimo evento finalizado en el sistema:</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            @if (!string.IsNullOrEmpty(Model.Imagen))
+                            {
+                                if (Uri.TryCreate(Model.Imagen, UriKind.Absolute, out Uri imageUrl))
+                                {
+                                    // Si la cadena es una URL válida, mostrarla como una imagen externa
+                                    <img src="@Model.Imagen" alt="Imagen del Evento" class="img-fluid rounded" />
+                                }
+                                else
+                                {
+                                    // Si la cadena no es una URL válida, determinar el tipo MIME según los prefijos comunes
+                                    var imageDataPrefix = Model.Imagen.Substring(0, 5);
+
+                                    string mimeType = "image/jpeg"; // Asumir JPEG por defecto
+                                    if (imageDataPrefix.Contains("/9j/4")) // Común prefijo para JPEG
+                                    {
+                                        mimeType = "image/jpeg";
+                                    }
+                                    else if (imageDataPrefix.Contains("iVBOR")) // Común prefijo para PNG
+                                    {
+                                        mimeType = "image/png";
+                                    }
+                                    else if (imageDataPrefix.Contains("UklGR")) // Común prefijo para WebP
+                                    {
+                                        mimeType = "image/webp";
+                                    }
+                                    else if (imageDataPrefix.Contains("AAAAI")) // Común prefijo para AVIF
+                                    {
+                                        mimeType = "image/avif";
+                                    }
+
+                                    <img src="data:@mimeType;base64,@Model.Imagen" alt="Imagen del Evento" class="img-fluid rounded" />
+                                }
+                            }
+                        </div>
+                        <div class="col-md-8">
+                            <p><strong>Nombre:</strong> @Model.NombreEvento</p>
+                            <p><strong>Fecha:</strong> @Model.FechaEvento</p>
+                            <p><strong>Departamento:</strong> @Model.oDepartamento.Nombre</p>
+                            <p><strong>Tipo de evento:</strong> @Model.oTipoEvento.NombreTipoEvento</p>
+                            <p><strong>Lugar:</strong> @Model.oLugar.NombreLugar</p>
+                            <!-- Aquí puedes agregar más detalles del evento según sea necesario -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info" role="alert">
+                No hay ningun evento finalizado.
+            </div>
+        }
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

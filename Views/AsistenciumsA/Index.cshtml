@@ -1,0 +1,175 @@
+﻿@model IEnumerable<OEED_ITT.Models.Asistencium>
+@using OEED_ITT.Helpers;
+
+@{
+    Layout = "~/Views/Shared/_LayoutO.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Asistencia</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EAF6EA;
+            color: #537052;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #475148;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .form-container {
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: center;
+        }
+
+            .form-container input[type="number"] {
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                width: calc(100% - 110px);
+                display: inline-block;
+                margin-right: 10px;
+            }
+
+            .form-container button {
+                padding: 8px 16px;
+                background-color: #537052;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                display: inline-block;
+            }
+
+                .form-container button:hover {
+                    background-color: #475148;
+                }
+
+        .table-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #FAFFF9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+            .table thead th {
+                background-color: #859C80;
+                color: #FAFFF9;
+                text-align: center;
+                font-weight: bold;
+                padding: 10px;
+            }
+
+            .table tbody td {
+                background-color: #FFFFFF;
+                color: #475148;
+                vertical-align: middle;
+                text-align: left;
+                padding: 15px;
+                border-bottom: 1px solid #EAF6EA;
+            }
+
+            .table tbody tr:nth-of-type(odd) {
+                background-color: rgba(87, 112, 82, 0.1);
+            }
+
+            .table tbody tr:nth-of-type(even) {
+                background-color: #FAFFF9;
+            }
+
+            .table a {
+                color: #537052;
+                text-decoration: none;
+            }
+
+                .table a:hover {
+                    color: #475148;
+                }
+
+        .empty-message {
+            font-style: italic;
+            color: #475148;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 22px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container form-container">
+        <form method="post" action="@Url.Action("CreatePost", "AsistenciumsO")">
+            <input type="hidden" name="idEvento" value="@ViewData["idEvento"]">
+            <input type="number" name="idUsuario" placeholder="Agregar nuevo usuario a la lista de asistencia">
+            <button type="submit">Agregar</button>
+        </form>
+        <p style="color: red;">@UsuarioG.mensajeError</p>
+    </div>
+
+
+    <div class="container table-container">
+        <h1>Lista de Asistencia</h1>
+        @* <p class="text-center">
+        <a asp-action="Create" class="btn btn-success">Crear Nuevo</a>
+        </p> *@
+
+        @if (Model.Any())
+        {
+            UsuarioG.vaciarMensaje();
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>No. de control</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Departamento</th>
+                        <th>Hora de asistencia</th>
+                        @* <th>Detalles</th> *@
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.IdUsuarioNavigation.IdUsuario)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IdUsuarioNavigation.NombreUsuario)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IdUsuarioNavigation.ApellidoUsuario)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IdUsuarioNavigation.IddepartamentoNavigation.Nombre)</td>
+                            <td>@Html.DisplayFor(modelItem => item.HoraAsistencia)</td>
+                            @* <td>@Html.DisplayFor(modelItem => item.DetallesAsistencia)</td> *@
+                            <td>
+                                <a asp-action="DeleteAsistencia" asp-route-idEvento="@item.IdEvento" asp-route-idUsuario=@item.IdUsuario class="btn btn-danger btn-sm">Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="empty-message">
+                No se ha registrado ninguna asistencia en el evento.
+            </div>
+        }
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

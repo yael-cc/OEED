@@ -1,0 +1,122 @@
+﻿@model OEED_ITT.Models.Evento
+
+@{
+    Layout = "~/Views/Shared/_LayoutO.cshtml";
+    ViewData["Title"] = "Evento Creado";
+    ViewData["BackgroundColor"] = "#EAF6EA";
+    ViewData["TextColor"] = "#537052";
+}
+
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Mc8nb1ehR6PRgJ4XBqXaj2Qwv1p3p9CeDwi/8Y37E9zlt4rQxgXh0E5aRHM8PMLQ" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: @ViewData["BackgroundColor"];
+            color: @ViewData["TextColor"];
+            font-family: Arial, sans-serif;
+        }
+
+        .success-message {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .event-details {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid @ViewData["TextColor"];
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+            .event-details img {
+                max-width: 300px;
+                max-height: 300px;
+                border-radius: 10px;
+                margin-bottom: 20px;
+            }
+
+            .event-details h2 {
+                color: @ViewData["TextColor"];
+                margin-bottom: 20px;
+            }
+
+            .event-details p {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+        .back-button {
+            margin-top: 20px;
+        }
+
+            .back-button a {
+                background-color: @ViewData["TextColor"];
+                color: #ffffff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                text-decoration: none;
+                cursor: pointer;
+                font-size: 18px;
+            }
+
+                .back-button a:hover {
+                    background-color: #475148;
+                }
+    </style>
+</head>
+
+<div class="container">
+    <div class="success-message">
+        <h1>Evento creado con éxito</h1>
+        <p>El evento ha sido creado correctamente. A continuación, se muestran los detalles del evento:</p>
+    </div>
+
+    <div class="event-details text-center">
+        @if (!string.IsNullOrEmpty(Model.Imagen))
+        {
+            if (Uri.TryCreate(Model.Imagen, UriKind.Absolute, out Uri imageUrl))
+            {
+                <img src="@Model.Imagen" alt="Imagen del Evento" />
+            }
+            else
+            {
+                var imageDataPrefix = Model.Imagen.Substring(0, 5);
+                string mimeType = imageDataPrefix switch
+                {
+                    "/9j/4" => "image/jpeg",
+                    "iVBOR" => "image/png",
+                    "UklGR" => "image/webp",
+                    "AAAAI" => "image/avif",
+                    _ => "image/jpeg"
+                };
+                <img src="data:@mimeType;base64,@Model.Imagen" alt="Imagen del Evento" />
+            }
+        }
+
+        <h2>@Model.NombreEvento</h2>
+        <p><strong>Descripción:</strong> @Model.DescripcionEvento</p>
+        <p><strong>Fecha de Inicio:</strong> @Model.HoraInicioEvento</p>
+        <p><strong>Fecha de Fin:</strong> @Model.HoraFinEvento</p>
+    </div>
+
+    <div class="success-message">
+        <h1>CONSIDERACIONES</h1>
+        <p>- El evento ha sido compartido para todos los departamentos, si desea especificar puede hacerlo en los detalles del evento.<br>
+            - Actualmente solo usted (organizador) forma parte del staff, si desea agregar miembros puede hacerlo en cualquier momento desde los detalles del evento.<br>
+            - Si desea agregar actividades dentro del evento puede hacerlo a traves de los detalles del evento. <br>
+            - Cualquier otro cambio o cancelacion del evento pueden realizarse en los detalles del evento.
+        </p>
+    </div>
+
+    <div class="back-button text-center">
+        <a href="@Url.Action("Index", "Eventos")">Volver a la lista de eventos</a>
+        <a asp-controller="EventoO" asp-action="Details" asp-route-id="@ViewBag.idEvento" >Ver detalles del evento</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@@2.5.2/dist/umd/popper.min.js" integrity="sha384-lciCPx3p63K6Dmsjkp8iGiEb6zp1d3pL/2Ao2bSHd3Ejk1J9th9diXvFW5fQbWlk" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgpsDSbBlMnXp3h5zl/+h5A3C5Zj/IFbhKXov9GAJVo2xHsqXGx" crossorigin="anonymous"></script>

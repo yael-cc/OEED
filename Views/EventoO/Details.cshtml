@@ -1,0 +1,165 @@
+﻿@model OEED_ITT.Models.Evento
+
+@{
+    Layout = "~/Views/Shared/_LayoutO.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EAF6EA;
+            color: #537052;
+            margin: 0;
+            padding: 0;
+        }
+
+        .containerF {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h4 {
+            color: #537052;
+            margin-bottom: 20px;
+        }
+
+        hr {
+            border: 1px solid #537052;
+            margin-bottom: 20px;
+        }
+
+        dl.row {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        dt {
+            font-weight: bold;
+        }
+
+        dd {
+            margin: 0;
+        }
+
+        a {
+            color: #537052;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #537052;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        a:hover {
+            background-color: #537052;
+            color: #fff;
+        }
+
+        .evento-imagen {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="containerF">
+        <h4>Evento</h4>
+        <hr />
+        <dl class="row">
+            <dt>Nombre</dt>
+            <dd>@Html.DisplayFor(model => model.NombreEvento)</dd>
+
+            <dt>Descripción</dt>
+            <dd>@Html.DisplayFor(model => model.DescripcionEvento)</dd>
+
+            <dt>Fecha</dt>
+            <dd>@Html.DisplayFor(model => model.FechaEvento)</dd>
+
+            <dt>Comienzo</dt>
+            <dd>@Html.DisplayFor(model => model.HoraInicioEvento)</dd>
+
+            <dt>Finalización</dt>
+            <dd>@Html.DisplayFor(model => model.HoraFinEvento)</dd>
+
+            <dt>Num. Máximo</dt>
+            <dd>@Html.DisplayFor(model => model.NumMaxEvento)</dd>
+
+            <dt>Imagen</dt>
+            <dd>
+                @if (!string.IsNullOrEmpty(Model.Imagen))
+                {
+                    if (Uri.TryCreate(Model.Imagen, UriKind.Absolute, out Uri imageUrl))
+                    {
+                        // Si la cadena es una URL válida, mostrarla como una imagen externa
+                        <img src="@Model.Imagen" alt="Imagen del Evento" class="evento-imagen" />
+                    }
+                    else
+                    {
+                        // Si la cadena no es una URL válida, determinar el tipo MIME según los prefijos comunes
+                        var imageDataPrefix = Model.Imagen.Substring(0, 5);
+
+                        string mimeType = "image/jpeg"; // Asumir JPEG por defecto
+                        if (imageDataPrefix.Contains("/9j/4")) // Común prefijo para JPEG
+                        {
+                            mimeType = "image/jpeg";
+                        }
+                        else if (imageDataPrefix.Contains("iVBOR")) // Común prefijo para PNG
+                        {
+                            mimeType = "image/png";
+                        }
+                        else if (imageDataPrefix.Contains("UklGR")) // Común prefijo para WebP
+                        {
+                            mimeType = "image/webp";
+                        }
+                        else if (imageDataPrefix.Contains("AAAAI")) // Común prefijo para AVIF
+                        {
+                            mimeType = "image/avif";
+                        }
+
+                        <img src="data:@mimeType;base64,@Model.Imagen" alt="Imagen del Evento" class="evento-imagen" />
+                    }
+                }
+                else
+                {
+                    <span>No hay imagen disponible</span>
+                }
+            </dd>
+
+            <dt>Estado</dt>
+            <dd>@Html.DisplayFor(model => model.oEstado.NombreEstadoEvento)</dd>
+
+            <dt>Tipo</dt>
+            <dd>@Html.DisplayFor(model => model.oTipoEvento.NombreTipoEvento)</dd>
+
+            <dt>Departamento encargado</dt>
+            <dd>@Html.DisplayFor(model => model.oDepartamento.Nombre)</dd>
+
+            <dt>Lugar</dt>
+            <dd>@Html.DisplayFor(model => model.oLugar.NombreLugar)</dd>
+        </dl>
+        <div>
+            <a asp-controller="InscripcionO" asp-action="IndexGO" asp-route-id="@Model.IdEvento">Grupo Organizador</a>
+            <a asp-controller="ActividadesEventoO" asp-action="Index" asp-route-idEvento="@Model.IdEvento" >Actividades</a>
+            <a asp-controller="EventoO" asp-action="Edit" asp-route-id="@Model.IdEvento">Editar evento</a>
+            <a asp-controller="EventoO" asp-action="IndexDI" asp-route-idEvento="@Model.IdEvento">Departamentos invitados</a>
+        </div>
+        <br>
+        <div>
+            <a asp-controller="EventoO" asp-action="Index"  >Regresar al listado</a>
+            <a asp-controller="EventoO" asp-action="Cancelar" asp-route-idEvento="@Model.IdEvento">Cancelar evento</a>
+        </div>
+    </div>
+</body>
+</html>

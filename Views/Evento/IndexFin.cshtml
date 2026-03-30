@@ -1,0 +1,149 @@
+﻿@model IEnumerable<OEED_ITT.Models.Evento>
+
+@{
+    ViewData["Title"] = "Lista de Eventos"; // Título personalizado para esta vista
+    ViewData["BackgroundColor"] = "#EAF6EA"; // Color de fondo
+    ViewData["TextColor"] = "#537052"; // Color de texto
+    ViewData["ButtonColor"] = "#537052"; // Color de fondo del botón
+}
+
+<style>
+    body {
+        background-color: @ViewData["BackgroundColor"];
+        color: @ViewData["TextColor"];
+        font-family: Arial, sans-serif; /* Tipo de fuente */
+        font-size: 16px; /* Tamaño de fuente general */
+    }
+
+    .title-container {
+        margin-bottom: 20px; /* Espaciado inferior del contenedor */
+        text-align: center; /* Alinear texto al centro */
+    }
+
+    h1 {
+        color: @ViewData["TextColor"];
+        margin-bottom: 20px;
+        font-size: 36px;
+    }
+
+    .empty-message {
+        font-style: italic;
+        color: #475148;
+        margin-top: 10px;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .event-table {
+        margin-top: 20px;
+    }
+
+    .event-table img {
+        max-width: 100px;
+        max-height: 100px;
+        border-radius: 5px;
+    }
+
+    .button-details {
+        background-color: @ViewData["ButtonColor"];
+        color: #ffffff;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+    .button-details:hover {
+        background-color: #475148;
+    }
+</style>
+
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Mc8nb1ehR6PRgJ4XBqXaj2Qwv1p3p9CeDwi/8Y37E9zlt4rQxgXh0E5aRHM8PMLQ" crossorigin="anonymous">
+</head>
+
+<div class="container">
+    <div class="title-container">
+        <h1>Lista de eventos finalizados en los que formaste parte del staff</h1>
+    </div>
+    
+    @if (!Model.Any())
+    {
+        <div class="empty-message">
+            No hay eventos disponibles.<br>
+            Probablemente no has formado parte del staff de ningún evento.
+        </div>
+    }
+    else
+    {
+        <table class="table table-striped event-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Detalles del evento</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.Imagen))
+                            {
+                                if (Uri.TryCreate(item.Imagen, UriKind.Absolute, out Uri imageUrl))
+                                {
+                                    // Si la cadena es una URL válida, mostrarla como una imagen externa
+                                    <img src="@item.Imagen" alt="Imagen del Evento" />
+                                }
+                                else
+                                {
+                                    // Si la cadena no es una URL válida, determinar el tipo MIME según los prefijos comunes
+                                    var imageDataPrefix = item.Imagen.Substring(0, 5);
+
+                                    string mimeType = "image/jpeg"; // Asumir JPEG por defecto
+                                    if (imageDataPrefix.Contains("/9j/4")) // Común prefijo para JPEG
+                                    {
+                                        mimeType = "image/jpeg";
+                                    }
+                                    else if (imageDataPrefix.Contains("iVBOR")) // Común prefijo para PNG
+                                    {
+                                        mimeType = "image/png";
+                                    }
+                                    else if (imageDataPrefix.Contains("UklGR")) // Común prefijo para WebP
+                                    {
+                                        mimeType = "image/webp";
+                                    }
+                                    else if (imageDataPrefix.Contains("AAAAI")) // Común prefijo para AVIF
+                                    {
+                                        mimeType = "image/avif";
+                                    }
+
+                                    <img src="data:@mimeType;base64,@item.Imagen" alt="Imagen del Evento" />
+                                }
+                            }
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayFor(modelItem => item.NombreEvento)</strong><br>
+                            Departamento: @Html.DisplayFor(modelItem => item.oDepartamento.Nombre) <br>
+                            Fecha y hora de inicio: @Html.DisplayFor(modelItem => item.HoraInicioEvento) <br>
+                            Fecha y hora de fin: @Html.DisplayFor(modelItem => item.HoraFinEvento) <br>
+                        </td>
+                        <td>
+                            <a asp-controller="Comentarios" asp-action="CreateS" asp-route-idEvento="@item.IdEvento" class="btn btn-primary button-details">Quejas y sugerencias</a>
+                            <a asp-controller="Comentarios" asp-action="Index" asp-route-idEvento="@item.IdEvento" class="btn btn-secondary button-details">Ver mis comentarios</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.2/dist/umd/popper.min.js" integrity="sha384-lciCPx3p63K6Dmsjkp8iGiEb6zp1d3pL/2Ao2bSHd3Ejk1J9th9diXvFW5fQbWlk" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgpsDSbBlMnXp3h5zl/+h5A3C5Zj/IFbhKXov9GAJVo2xHsqXGx" crossorigin="anonymous"></script>

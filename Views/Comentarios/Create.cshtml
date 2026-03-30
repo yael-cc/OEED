@@ -1,0 +1,94 @@
+﻿@model OEED_ITT.Models.Comentario
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comentar</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: #EAF6EA;
+            color: #475148;
+            font-family: Arial, sans-serif;
+        }
+
+        .containerFF {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #FAFFF9;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h4 {
+            color: #537052;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #859C80;
+        }
+
+        .form-control {
+            border: 1px solid #859C80;
+            border-radius: 5px;
+            box-shadow: none;
+        }
+
+            .form-control:focus {
+                border-color: #537052;
+                box-shadow: 0 0 5px rgba(83, 112, 82, 0.5);
+            }
+
+        .btn-primary {
+            background-color: #537052;
+            color: #FAFFF9;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .btn-primary:hover {
+                background-color: #475148;
+            }
+
+        .text-danger {
+            color: #FF0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="containerFF">
+            <h4>Deja tu Comentario</h4>
+            <hr />
+            <form asp-action="Comentar">
+                <input type="hidden" asp-for="IdEvento" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div class="form-group">
+                    <label asp-for="AsuntoComentario" class="control-label">Asunto:</label>
+                    <input asp-for="AsuntoComentario" class="form-control" placeholder="Escribe el asunto de tu comentario" />
+                    <span asp-validation-for="AsuntoComentario" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DescripcionComentario" class="control-label">Comentario:</label>
+                    <textarea asp-for="DescripcionComentario" class="form-control" rows="4" placeholder="Escribe tu comentario"></textarea>
+                    <span asp-validation-for="DescripcionComentario" class="text-danger"></span>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">Comentar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

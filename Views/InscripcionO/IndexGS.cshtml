@@ -1,0 +1,95 @@
+﻿@model IEnumerable<OEED_ITT.Models.GrupoOrganizador>
+
+@{
+    Layout = "~/Views/Shared/_LayoutO.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Grupo organizador del evento"; // Título personalizado para esta vista
+    ViewData["BackgroundColor"] = "#EAF6EA"; // Color de fondo
+    ViewData["TextColor"] = "#537052"; // Color de texto
+}
+<style>
+    body {
+        background-color: @ViewData["BackgroundColor"];
+        color: @ViewData["TextColor"];
+        font-family: Poppins, sans-serif; /* Tipo de fuente */
+        font-size: 16px; /* Tamaño de fuente general */
+    }
+
+    table {
+        width: 100%; /* Ancho completo de la tabla */
+        border-collapse: collapse; /* Colapso de bordes */
+    }
+
+    th, td {
+        padding: 10px; /* Espaciado interior de celdas */
+        border: 1px solid #ddd; /* Borde de celdas */
+        text-align: left; /* Alinear texto a la izquierda */
+    }
+
+    th {
+        background-color: #859C80; /* Color de fondo para encabezados */
+        color: white; /* Color de texto para encabezados */
+        font-weight: bold; /* Negrita para encabezados */
+    }
+
+    .title-container {
+        font-size: 24px;
+        margin-bottom: 20px; /* Espaciado inferior del contenedor */
+        text-align: center; /* Alinear texto al centro */
+    }
+
+    .form-container {
+        margin-bottom: 20px; /* Espaciado inferior del formulario */
+    }
+
+        .form-container input[type="text"] {
+            padding: 8px; /* Espaciado interior del cuadro de texto */
+            border: 1px solid #ddd; /* Borde del cuadro de texto */
+        }
+
+        .form-container button {
+            padding: 8px 16px; /* Espaciado interior del botón */
+            background-color: #537052; /* Color de fondo del botón */
+            color: white; /* Color de texto del botón */
+            border: none; /* Sin borde */
+            border-radius: 5px; /* Borde redondeado */
+            cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
+        }
+</style>
+
+<div class="title-container">
+    <h1>@ViewData["Title"]</h1>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Departamento</th>
+            <th>Rol</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdUsuario) <br>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.NombreUsuario)
+                    @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.ApellidoUsuario) <br>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.IddepartamentoNavigation.Nombre) <br>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.IdrolNavigation.NombreRol) <br>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

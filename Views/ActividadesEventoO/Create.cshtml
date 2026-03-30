@@ -1,0 +1,109 @@
+﻿@model OEED_ITT.Models.ActividadesEvento
+@using OEED_ITT.Helpers;
+
+@{
+    Layout = "~/Views/Shared/_LayoutO.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crear Actividad</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        .containerF {
+            margin-top: 50px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 0.25rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 0.25rem;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #004085;
+            }
+
+        .back-link {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="containerF">
+        <h4 class="text-center">Crear Actividad</h4>
+        <hr />
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <div class="form-group">
+                        <label asp-for="NombreActividad" class="control-label">Nombre de la Actividad</label>
+                        <input asp-for="NombreActividad" class="form-control" />
+                        <span asp-validation-for="NombreActividad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DescripcionActividad" class="control-label">Descripción de la Actividad</label>
+                        <textarea asp-for="DescripcionActividad" class="form-control"></textarea>
+                        <span asp-validation-for="DescripcionActividad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HoraInicio" class="control-label">Hora de Inicio</label>
+                        <input asp-for="HoraInicio" class="form-control" type="datetime-local" />
+                        <span asp-validation-for="HoraInicio" class="text-danger"></span>
+                    </div>
+                    <p style="color: red;">@UsuarioG.mensajeError</p>
+                    <div class="form-group">
+                        <label asp-for="HoraFin" class="control-label">Hora de Finalización</label>
+                        <input asp-for="HoraFin" class="form-control" type="datetime-local" />
+                        <span asp-validation-for="HoraFin" class="text-danger"></span>
+                    </div>
+                    <input type="hidden" asp-for="IdEvento" value="@ViewBag.IdEvento" />
+                    <div class="form-group text-center">
+                        <input type="submit" value="Crear" class="btn btn-primary" />
+                    </div>
+                </form>
+                <div class="text-center back-link">
+                    <a asp-controller="ActividadesEventoO" asp-action="Index" asp-route-idEvento="@ViewBag.IdEvento">Regresar al listado</a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <!-- _ValidationScriptsPartial.cshtml -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+            UsuarioG.vaciarMensaje();
+        }
+    }
+
+
+</body>
+</html>

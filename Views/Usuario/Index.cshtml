@@ -1,0 +1,197 @@
+﻿@model IEnumerable<OEED_ITT.Models.Usuario>
+@using OEED_ITT.Helpers;
+
+@{
+    Layout = "~/Views/Shared/_LayoutA.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Lista de Usuarios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F0F0F0;
+            color: #475148;
+            margin: 0;
+            padding: 0px;
+        }
+
+        .title-container {
+            font-size: 40px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #537052;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #F0F0F0;
+            color: #475148;
+        }
+
+        .form-container {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                color: #537052;
+            }
+
+            .form-group select,
+            .form-group input {
+                width: 200px;
+                padding: 8px;
+                border-radius: 5px;
+                border: 1px solid #D1D1D1;
+            }
+
+            .form-group button {
+                padding: 8px 16px;
+                border-radius: 5px;
+                border: none;
+                background-color: #537052;
+                color: #FFFFFF;
+                cursor: pointer;
+                transition: background-color 0.3s, color 0.3s;
+            }
+
+                .form-group button:hover {
+                    background-color: #475148;
+                }
+
+        .table-container {
+            margin: 0 auto;
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #D1D1D1;
+        }
+
+        th {
+            background-color: #f0f0f0; /* Color de fondo gris claro */
+            color: #000000; /* Color de texto negro */
+        }
+
+        tr:nth-child(even) {
+            background-color: #F0F0F0;
+        }
+
+        tr:hover {
+            background-color: #D1D1D1;
+        }
+
+        .action-links a {
+            color: #537052;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: color 0.3s;
+        }
+
+            .action-links a:hover {
+                color: #475148;
+            }
+    </style>
+</head>
+<body>
+    <div class="title-container">
+        <p></p>
+        Lista de Usuarios
+    </div>
+    <div class="btn-container">
+        <a asp-action="Create" class="btn btn-primary">Crear nuevo usuario</a>
+    </div>
+
+    <div class="form-container">
+        <fieldset>
+            @* <legend>Búsqueda por Departamento y Rol</legend> *@
+            <form asp-action="IndexF" asp-controller="Usuario" method="get" class="form-group">
+                <p>Búsqueda por Departamento y Rol</p>
+                <div class="form-group">
+                    <label class="control-label">Departamento:</label>
+                    <select name="IdDepartamento" class="form-control" asp-items="ViewBag.IdDepartamento">
+                        <option value="">Todos los departamentos</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Rol:</label>
+                    <select name="IdRol" class="form-control" asp-items="ViewBag.IdRol">
+                        <option value="">Todos los roles</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                <p type="hidden" style="color: #F0F0F0">@UsuarioG.mensajeError</p>
+            </form>
+            <form asp-action="Details" asp-controller="Usuario" method="get" class="form-group">
+                <p>Busqueda por numero de control</p>
+                <div class="form-group">
+                    <label>No. Control del usuario:</label>
+                    <input name="id" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary">Buscar Usuario</button>
+                <p style="color: red">@UsuarioG.mensajeError</p>
+            </form>
+        </fieldset>
+    </div>
+
+ @*    <div class="form-container">
+        <fieldset>
+            
+        </fieldset>
+    </div> *@
+
+
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre de perfil</th>
+                    <th>Departamento</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.IdUsuario)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NombrePfUsuario)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IddepartamentoNavigation.Nombre)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IdrolNavigation.NombreRol)</td>
+                        <td class="action-links">
+                            <a asp-action="Edit" asp-route-id="@item.IdUsuario">Editar</a>
+                            <a asp-action="Details" asp-route-id="@item.IdUsuario">Detalles</a>
+                        </td>
+                    </tr>
+                    UsuarioG.vaciarMensaje();
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

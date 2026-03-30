@@ -1,0 +1,184 @@
+﻿@model IEnumerable<OEED_ITT.Models.Evento>
+
+@{
+    ViewData["Title"] = "Lista de Eventos"; // Título personalizado para esta vista
+    ViewData["BackgroundColor"] = "#EAF6EA"; // Color de fondo
+    ViewData["TextColor"] = "#537052"; // Color de texto
+    ViewData["TableColor"] = "#859C80"; // Color de la tabla
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: @ViewData["BackgroundColor"];
+            color: @ViewData["TextColor"];
+            font-family: Arial, sans-serif;
+        }
+
+        .table-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #FAFFF9;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+            .table thead th {
+                background-color: #537052;
+                color: #FAFFF9;
+                text-align: center;
+                font-size: 18px;
+                font-weight: bold;
+                padding: 10px;
+            }
+
+            .table tbody td {
+                background-color: #FFFFFF;
+                color: #475148;
+                vertical-align: middle;
+                text-align: left;
+                padding: 15px;
+                border-bottom: 1px solid #EAF6EA;
+            }
+
+            .table tbody tr:nth-of-type(odd) {
+                background-color: rgba(87, 112, 82, 0.1);
+            }
+
+            .table img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 10px;
+            }
+
+        .title-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .button-details {
+            background-color: #537052;
+            color: #FAFFF9;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+            .button-details:hover {
+                background-color: #475148;
+            }
+
+        .empty-message {
+            font-style: italic;
+            color: #475148;
+            margin-top: 10px;
+            font-size: 22px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #537052;
+            margin-bottom: 20px;
+            font-size: 36px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container table-container">
+        <div class="title-container">
+            <h1>Lista de Eventos</h1>
+            <a asp-controller="Evento" asp-action="IndexFin" asp-route-idUsuario="@ViewData["IdUsuario"]" class="button-details">Eventos finalizados</a>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-message">
+                No hay eventos disponibles.<br>
+                Probablemente no forma parte del staff de ningun evento.
+            </div>
+        }
+        else
+        {
+            <table class="table table-hover">
+                <thead>
+                    @* <tr>
+                        <th>Imagen</th>
+                        <th>Detalles del Evento</th>
+                    </tr> *@
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.Imagen))
+                                {
+                                    if (Uri.TryCreate(item.Imagen, UriKind.Absolute, out Uri imageUrl))
+                                    {
+                                        // Si la cadena es una URL válida, mostrarla como una imagen externa
+                                        <img src="@item.Imagen" alt="Imagen del Evento" />
+                                    }
+                                    else
+                                    {
+                                        // Si la cadena no es una URL válida, determinar el tipo MIME según los prefijos comunes
+                                        var imageDataPrefix = item.Imagen.Substring(0, 5);
+
+                                        string mimeType = "image/jpeg"; // Asumir JPEG por defecto
+                                        if (imageDataPrefix.Contains("/9j/4")) // Común prefijo para JPEG
+                                        {
+                                            mimeType = "image/jpeg";
+                                        }
+                                        else if (imageDataPrefix.Contains("iVBOR")) // Común prefijo para PNG
+                                        {
+                                            mimeType = "image/png";
+                                        }
+                                        else if (imageDataPrefix.Contains("UklGR")) // Común prefijo para WebP
+                                        {
+                                            mimeType = "image/webp";
+                                        }
+                                        else if (imageDataPrefix.Contains("AAAAI")) // Común prefijo para AVIF
+                                        {
+                                            mimeType = "image/avif";
+                                        }
+
+                                        <img src="data:@mimeType;base64,@item.Imagen" alt="Imagen del Evento" />
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <h5>@Html.DisplayFor(modelItem => item.NombreEvento)</h5>
+                                <p>
+                                    <strong>Departamento:</strong> @Html.DisplayFor(modelItem => item.oDepartamento.Nombre)<br>
+                                    <strong>Fecha y hora de inicio:</strong> @Html.DisplayFor(modelItem => item.HoraInicioEvento)<br>
+                                    <strong>Fecha y hora de fin:</strong> @Html.DisplayFor(modelItem => item.HoraFinEvento)
+                                </p>
+                                <a asp-controller="Asistenciums" asp-action="Index" asp-route-idEvento="@item.IdEvento" class="button-details">Gestionar asistentes</a>
+                                <a asp-controller="ActividadesEvento" asp-action="Index" asp-route-idEvento="@item.IdEvento" class="button-details">Cronograma de actividades</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

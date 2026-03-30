@@ -1,0 +1,97 @@
+﻿@model OEED_ITT.Models.Inscripcion
+
+@{
+    Layout = "~/Views/Shared/_LayoutO.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Inscripción</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EAF6EA;
+            color: #475148;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #FAFFF9;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #537052;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #859C80;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #537052;
+            }
+
+        .button-details {
+            background-color: #859C80;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+            .button-details:hover {
+                background-color: #537052;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h4>Inscripción</h4>
+
+        <h2>Confirmar Inscripción</h2>
+
+        <p>¿Estás seguro de que quieres inscribirte a este evento?</p>
+
+        <form asp-action="CreatePost" asp-controller="Inscripcion">
+            <input type="hidden" name="IdEvento" value="@ViewData["IdEvento"]" />
+            <input type="hidden" name="IdUsuario" value="@ViewData["IdUsuario"]" />
+
+            <button type="submit">Confirmar inscripción</button>
+        </form>
+
+        <div>
+            <a asp-action="Details" asp-controller="Evento" asp-route-id="@ViewData["IdEvento"]" class="button-details">Volver al evento</a>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
+</html>

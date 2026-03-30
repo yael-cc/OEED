@@ -1,0 +1,96 @@
+﻿@model OEED_ITT.Models.Usuario
+
+@{
+    Layout = "~/Views/Shared/_LayoutA.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Detalles del Usuario</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Mc8nb1ehR6PRgJ4XBqXaj2Qwv1p3p9CeDwi/8Y37E9zlt4rQxgXh0E5aRHM8PMLQ" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EAF6EA;
+            color: #475148;
+            margin: 0;
+        }
+
+        .main-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #FFFFFF;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h4 {
+            color: #537052;
+            margin-bottom: 20px;
+        }
+
+        hr {
+            border-color: #537052;
+            margin-bottom: 20px;
+        }
+
+        .dl-horizontal dt {
+            color: #537052;
+            font-weight: bold;
+        }
+
+        .dl-horizontal dd {
+            color: #859C80;
+        }
+
+        .btn-edit, .btn-back {
+            color: #FFFFFF;
+            background-color: #537052;
+            border-color: #537052;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 5px;
+        }
+
+            .btn-edit:hover, .btn-back:hover {
+                background-color: #475148;
+                border-color: #475148;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="main-container">
+            <h4>Detalles del Usuario</h4>
+            <hr />
+            <dl class="row dl-horizontal">
+                <dt class="col-sm-3">Nombre</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.NombreUsuario)</dd>
+                <dt class="col-sm-3">Apellido</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.ApellidoUsuario)</dd>
+                <dt class="col-sm-3">Nombre de perfil</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.NombrePfUsuario)</dd>
+                <dt class="col-sm-3">Correo</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.CorreoUsuario)</dd>
+                <dt class="col-sm-3">Departamento</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.IddepartamentoNavigation.Nombre)</dd>
+                <dt class="col-sm-3">Rol</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.IdrolNavigation.NombreRol)</dd>
+            </dl>
+        </div>
+        <div class="main-container text-center">
+            <a asp-action="Edit" asp-route-id="@Model?.IdUsuario" class="btn btn-edit">Editar</a>
+            <a asp-action="Index" class="btn btn-back">Regresar</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgpsDSbBlMnXp3h5zl/+h5A3C5Zj/IFbhKXov9GAJVo2xHsqXGx" crossorigin="anonymous"></script>
+</body>
+</html>

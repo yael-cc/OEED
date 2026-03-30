@@ -1,0 +1,127 @@
+﻿@model IEnumerable<OEED_ITT.Models.Evento>
+
+@{
+    Layout = "~/Views/Shared/_LayoutO.cshtml";
+    ViewData["Title"] = "Lista de Eventos"; // Título personalizado para esta vista
+    ViewData["BackgroundColor"] = "#EAF6EA"; // Color de fondo
+    ViewData["TextColor"] = "#537052"; // Color de texto
+    ViewData["ButtonColor"] = "#537052"; // Color de fondo del botón
+}
+<style>
+    body {
+        background-color: @ViewData["BackgroundColor"];
+        color: @ViewData["TextColor"];
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+    }
+
+    .table {
+        background-color: #ffffff;
+        width: 100%;
+    }
+
+        .table th {
+            color: @ViewData["TextColor"];
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        .table td {
+            color: #000000;
+            vertical-align: middle;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 18px;
+            padding: 20px;
+        }
+
+        .table img {
+            max-width: 100%;
+            height: auto;
+        }
+
+    .button-details {
+        background-color: @ViewData["ButtonColor"];
+        color: #ffffff;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+        .button-details:hover {
+            background-color: darken(@ViewData["ButtonColor"], 10%);
+        }
+
+    .event-row {
+        border-bottom: 2px solid @ViewData["BackgroundColor"];
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="title-container mb-4 text-center">
+        <h1>Lista de eventos</h1>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="event-row">
+                        <td class="col-md-4">
+                            @if (!string.IsNullOrEmpty(item.Imagen))
+                            {
+                                if (Uri.TryCreate(item.Imagen, UriKind.Absolute, out Uri imageUrl))
+                                {
+                                    // Si la cadena es una URL válida, mostrarla como una imagen externa
+                                    <img src="@item.Imagen" alt="Imagen del Evento" />
+                                }
+                                else
+                                {
+                                    // Si la cadena no es una URL válida, determinar el tipo MIME según los prefijos comunes
+                                    var imageDataPrefix = item.Imagen.Substring(0, 5);
+
+                                    string mimeType = "image/jpeg"; // Asumir JPEG por defecto
+                                    if (imageDataPrefix.Contains("/9j/4")) // Común prefijo para JPEG
+                                    {
+                                        mimeType = "image/jpeg";
+                                    }
+                                    else if (imageDataPrefix.Contains("iVBOR")) // Común prefijo para PNG
+                                    {
+                                        mimeType = "image/png";
+                                    }
+                                    else if (imageDataPrefix.Contains("UklGR")) // Común prefijo para WebP
+                                    {
+                                        mimeType = "image/webp";
+                                    }
+                                    else if (imageDataPrefix.Contains("AAAAI")) // Común prefijo para AVIF
+                                    {
+                                        mimeType = "image/avif";
+                                    }
+
+                                    <img src="data:@mimeType;base64,@item.Imagen" alt="Imagen del Evento" />
+                                }
+                            }
+                        </td>
+                        <td class="col-md-8">
+                            <p><strong>@Html.DisplayFor(modelItem => item.NombreEvento)</strong></p>
+                            <p>Fecha: @Html.DisplayFor(modelItem => item.FechaEvento)</p>
+                            <p>Estado: @Html.DisplayFor(modelItem => item.oEstado.NombreEstadoEvento)</p>
+                            <p>Tipo: @Html.DisplayFor(modelItem => item.oTipoEvento.NombreTipoEvento)</p>
+                            <a asp-action="Details" asp-route-id="@item.IdEvento" class="button-details">Ver detalles</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,142 @@
+﻿@using OEED_ITT.Helpers;
+
+@{
+    Layout = "~/Views/Shared/_LayoutA.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Perfil de Administrador</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EAF6EA;
+            color: #475148;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h1, h2 {
+            color: #537052;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        .table.profile-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .table.profile-table th,
+        .table.profile-table td {
+            border: none;
+            padding: 8px 12px;
+        }
+
+        .table.profile-table th {
+            color: #537052;
+            font-weight: bold;
+            width: 30%;
+            vertical-align: middle;
+            text-align: left;
+        }
+
+        .table.profile-table td {
+            vertical-align: middle;
+            text-align: left;
+        }
+
+        .btn-back {
+            background-color: #537052;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn-back:hover {
+            background-color: #475148;
+        }
+
+        @@media (max-width: 576px) {
+            .table.profile-table th, 
+            .table.profile-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .table.profile-table th {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container main-container">
+        <h1 class="text-center">Perfil de Administrador</h1>
+        <p class="text-center">El administrador es la persona con mayor jerarquía en este sistema y tiene acceso a muchas funcionalidades.</p>
+
+        <h2>Permisos:</h2>
+        <ul>
+            <li>Acceso completo a la gestión de todos los usuarios del sistema, incluyendo información personal como nombre, contraseña, correo, departamento, etc.</li>
+            <li>Visualización de los eventos de todos los departamentos.</li>
+            <li>Acceso a las estadísticas de los eventos en todos los departamentos.</li>
+            <li>Visualización de los comentarios de los eventos realizados en todos los departamentos.</li>
+        </ul>
+
+        <hr />
+
+        <div class="table-responsive">
+            <table class="table profile-table">
+                <tbody>
+                    <tr>
+                        <th scope="row">Nombre:</th>
+                        <td>@UsuarioG.NombreUsuario</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Apellido:</th>
+                        <td>@UsuarioG.ApellidoUsuario</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Nombre de perfil:</th>
+                        <td>@UsuarioG.NombrePfUsuario</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Correo:</th>
+                        <td>@UsuarioG.CorreoUsuario</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Departamento:</th>
+                        <td>@UsuarioG.NombreDepartamento</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Rol:</th>
+                        <td>Administrador</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a asp-area="" asp-controller="EventoA" asp-action="Index" class="btn btn-back btn-block">Regresar</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+﻿@model OEED_ITT.Models.Evento
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+
+<h4>Evento</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdEvento" />
+            <div class="form-group">
+                <label asp-for="NombreEvento" class="control-label"></label>
+                <input asp-for="NombreEvento" class="form-control" />
+                <span asp-validation-for="NombreEvento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DescripcionEvento" class="control-label"></label>
+                <input asp-for="DescripcionEvento" class="form-control" />
+                <span asp-validation-for="DescripcionEvento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaEvento" class="control-label"></label>
+                <input asp-for="FechaEvento" class="form-control" />
+                <span asp-validation-for="FechaEvento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdTipoEvento" class="control-label"></label>
+                <select asp-for="IdTipoEvento" class="form-control" asp-items="ViewBag.IdTipoEvento"></select>
+                <span asp-validation-for="IdTipoEvento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HoraInicioEvento" class="control-label"></label>
+                <input asp-for="HoraInicioEvento" class="form-control" />
+                <span asp-validation-for="HoraInicioEvento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HoraFinEvento" class="control-label"></label>
+                <input asp-for="HoraFinEvento" class="form-control" />
+                <span asp-validation-for="HoraFinEvento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdlugarEvento" class="control-label"></label>
+                <select asp-for="IdlugarEvento" class="form-control" asp-items="ViewBag.IdlugarEvento"></select>
+                <span asp-validation-for="IdlugarEvento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IddepartamentoOrigen" class="control-label"></label>
+                <select asp-for="IddepartamentoOrigen" class="form-control" asp-items="ViewBag.IddepartamentoOrigen"></select>
+                <span asp-validation-for="IddepartamentoOrigen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdEstadoEvento" class="control-label"></label>
+                <select asp-for="IdEstadoEvento" class="form-control" asp-items="ViewBag.IdEstadoEvento"></select>
+                <span asp-validation-for="IdEstadoEvento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumMaxEvento" class="control-label"></label>
+                <input asp-for="NumMaxEvento" class="form-control" />
+                <span asp-validation-for="NumMaxEvento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Imagen" class="control-label"></label>
+                <input asp-for="Imagen" class="form-control" />
+                <span asp-validation-for="Imagen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>

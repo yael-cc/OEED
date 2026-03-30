@@ -1,0 +1,137 @@
+﻿@model IEnumerable<OEED_ITT.Models.Evento>
+
+@{
+    Layout = "~/Views/Shared/_LayoutA.cshtml";
+    ViewData["Title"] = "Lista de Eventos";
+    ViewData["BackgroundColor"] = "#EAF6EA";
+    ViewData["TextColor"] = "#537052";
+}
+
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Mc8nb1ehR6PRgJ4XBqXaj2Qwv1p3p9CeDwi/8Y37E9zlt4rQxgXh0E5aRHM8PMLQ" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: @ViewData["BackgroundColor"];
+            color: @ViewData["TextColor"];
+            font-family: Arial, sans-serif;
+        }
+
+        .title-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: @ViewData["TextColor"];
+            font-size: 38px;
+        }
+
+        .empty-message {
+            font-style: italic;
+            color: #475148;
+            margin-top: 10px;
+            font-size: 22px;
+            text-align: center;
+        }
+
+        .event-table {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+            .event-table img {
+                max-width: 150px;
+                max-height: 150px;
+                border-radius: 5px;
+            }
+
+        .button-details {
+            background-color: @ViewData["TextColor"];
+            color: #ffffff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+            .button-details:hover {
+                background-color: #475148;
+            }
+    </style>
+</head>
+
+<div class="container">
+    <div class="title-container">
+        <h1>Lista de eventos finalizados</h1>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-message">
+            No hay eventos disponibles.<br>
+            Probablemente no ha finalizado ningún evento en su departamento.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover event-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Imagen</th>
+                        <th scope="col">Detalles del evento</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.Imagen))
+                                {
+                                    if (Uri.TryCreate(item.Imagen, UriKind.Absolute, out Uri imageUrl))
+                                    {
+                                        <img src="@item.Imagen" alt="Imagen del Evento" />
+                                    }
+                                    else
+                                    {
+                                        var imageDataPrefix = item.Imagen.Substring(0, 5);
+                                        string mimeType = imageDataPrefix switch
+                                        {
+                                            "/9j/4" => "image/jpeg",
+                                            "iVBOR" => "image/png",
+                                            "UklGR" => "image/webp",
+                                            "AAAAI" => "image/avif",
+                                            _ => "image/jpeg"
+                                        };
+                                        <img src="data:@mimeType;base64,@item.Imagen" alt="Imagen del Evento" />
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <strong>@Html.DisplayFor(modelItem => item.NombreEvento)</strong><br>
+                                Departamento: @Html.DisplayFor(modelItem => item.oDepartamento.Nombre) <br>
+                                Fecha y hora de inicio: @Html.DisplayFor(modelItem => item.HoraInicioEvento) <br>
+                                Fecha y hora de fin: @Html.DisplayFor(modelItem => item.HoraFinEvento) <br>
+                            </td>
+                            <td>
+                                <a asp-controller="ComentariosA" asp-action="Index" asp-route-idEvento="@item.IdEvento" class="btn btn-primary button-details">Ver quejas y sugerencias</a><br>
+                                <a asp-controller="InscripcionA" asp-action="IndexGS" asp-route-id="@item.IdEvento" class="btn btn-primary button-details">Staff del evento</a>
+                                <a asp-controller="AsistenciumsA" asp-action="IndexAC" asp-route-idEvento="@item.IdEvento" class="button-details">Lista de asistentes</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.2/dist/umd/popper.min.js" integrity="sha384-lciCPx3p63K6Dmsjkp8iGiEb6zp1d3pL/2Ao2bSHd3Ejk1J9th9diXvFW5fQbWlk" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgpsDSbBlMnXp3h5zl/+h5A3C5Zj/IFbhKXov9GAJVo2xHsqXGx" crossorigin="anonymous"></script>

@@ -1,0 +1,119 @@
+﻿@model OEED_ITT.Models.Usuario
+
+@{
+    Layout = "~/Views/Shared/_LayoutA.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Editar Usuario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-ZD5kmOs3kZQ8NdZnkrz1V0aGj8cE03Uy9KU9i+TfVne1z9F3BnpxlTfPhGT9KrMXbcgmKjGAaM1v7+nBqM0RnA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background-color: #EAF6EA;
+            color: #475148;
+            padding-top: 0px; /* Añadido espacio en la parte superior */
+            padding-left: 0px; /* Añadido espacio en el lado izquierdo */
+            padding-right: 0px; /* Añadido espacio en el lado derecho */
+        }
+
+        h4 {
+            margin-bottom: 20px; /* Añadido espacio inferior al título */
+        }
+
+        .form-group label {
+            color: #537052;
+        }
+
+        .form-control {
+            border-color: #859C80;
+        }
+
+        .btn-primary {
+            background-color: #537052;
+            border-color: #537052;
+            margin-top: 10px; /* Añadido espacio arriba del botón */
+        }
+
+            .btn-primary:hover {
+                background-color: #475148;
+                border-color: #475148;
+            }
+
+        .btn-back {
+            color: #FFFFFF;
+            background-color: #859C80;
+            border-color: #859C80;
+            margin-top: 10px; /* Añadido espacio arriba del botón */
+        }
+
+            .btn-back:hover {
+                background-color: #537052;
+                border-color: #537052;
+            }
+    </style>
+</head>
+<body>
+
+    <h4 class="text-center">Editar usuario</h4> <!-- Centrado el título -->
+    <hr />
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <!-- Ajustado el ancho del formulario y centrado -->
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="IdUsuario" />
+                <div class="form-group">
+                    <label for="NombreUsuario">Nombre</label>
+                    <input asp-for="NombreUsuario" class="form-control" />
+                    <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="ApellidoUsuario">Apellido</label>
+                    <input asp-for="ApellidoUsuario" class="form-control" />
+                    <span asp-validation-for="ApellidoUsuario" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="Idrol">Rol</label>
+                    <select asp-for="Idrol" class="form-control" asp-items="ViewBag.Idrol"></select>
+                    <span asp-validation-for="Idrol" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="Iddepartamento">Departamento</label>
+                    <select asp-for="Iddepartamento" class="form-control" asp-items="ViewBag.Iddepartamento"></select>
+                    <span asp-validation-for="Iddepartamento" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="NombrePfUsuario">Nombre de perfil</label>
+                    <input asp-for="NombrePfUsuario" class="form-control" />
+                    <span asp-validation-for="NombrePfUsuario" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="CorreoUsuario">Correo</label>
+                    <input asp-for="CorreoUsuario" class="form-control" />
+                    <span asp-validation-for="CorreoUsuario" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="ContrasenaUsuario" type="hidden">Contraseña</label>
+                    <input asp-for="ContrasenaUsuario" type="hidden" class="form-control" value="@Model?.ContrasenaUsuario" />
+                    <span asp-validation-for="ContrasenaUsuario" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+                </div>
+            </form>
+            <div>
+                <a asp-action="Index" class="btn btn-back">Regresar</a> <!-- Aplicado estilo al botón de regresar -->
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
+</html>

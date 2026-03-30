@@ -1,0 +1,32 @@
+# Archivos de compilación
+bin/
+obj/
+
+# Configuración de Visual Studio
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Configuración de VS Code
+.vscode/
+
+# Archivos de publicación
+publish/
+
+# Secretos y configuración local
+appsettings.Development.json
+.env
+
+# Archivos temporales del sistema
+[Th]umbs.db
+*.log
+
+# Archivos de usuario específicos de VS
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Carpetas de respaldo de herramientas
+.config/

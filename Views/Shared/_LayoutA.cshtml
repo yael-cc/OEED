@@ -1,0 +1,166 @@
+﻿@using OEED_ITT.Helpers
+
+@if (UsuarioG.Idrol != 1)
+{
+    <script>
+        window.location.href = '@Url.Action("Index", "Login")';
+    </script>
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OEED_ITT</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body, html {
+            margin: 0;
+            padding-bottom: 50px; /* Altura estimada del footer */
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 200px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #537052;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow-y: auto; /* Permite el desplazamiento vertical si es necesario */
+            padding-top: 20px; /* Espaciado superior */
+        }
+
+        .sidebar .navbar-brand {
+            margin-left: 15px;
+            color: #fff; /* Color del texto */
+        }
+
+        .sidebar .nav-link {
+            padding: 10px 15px; /* Espaciado interno de los enlaces */
+            color: #fff; /* Color del texto */
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #3e6f3e; /* Color de fondo al pasar el ratón */
+        }
+
+        .nav-container {
+            display: flex;
+        }
+
+        .nav-link {
+            margin-right: 10px; /* Ajusta el margen según tus necesidades */
+        }
+
+
+        .main-content {
+            margin-left: 200px; /* Ancho de la barra de navegación vertical */
+            height: 100%;
+            overflow-y: auto; /* Permite el desplazamiento vertical si es necesario */
+        }
+
+        .empty-bar {
+            background-color: #537052;
+            height: 50px; /* Ajusta la altura según sea necesario */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px; /* Espaciado interno */
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #537052; /* Color de fondo del footer */
+            padding: 10px 0; /* Espaciado interno del footer */
+            text-align: center;
+            color: #fff; /* Color del texto del footer */
+        }
+
+        .profile-link {
+            font-weight: bold; /* Texto en negrita */
+            font-size: 16px; /* Tamaño de fuente */
+            text-decoration: none; /* Quitar subrayado */
+            color: #fff; /* Color del texto */
+            background-color: #4CAF50; /* Nuevo color de fondo (verde) */
+            padding: 10px 15px; /* Espaciado interno */
+            border-radius: 5px; /* Bordes redondeados */
+            transition: background-color 0.3s, color 0.3s; /* Transición suave al pasar el ratón */
+        }
+
+            .profile-link:hover {
+                background-color: #3e6f3e; /* Cambio de color al pasar el ratón (verde más oscuro) */
+            }
+
+        .close-link {
+            font-weight: bold; /* Texto en negrita */
+            font-size: 16px; /* Tamaño de fuente */
+            text-decoration: none; /* Quitar subrayado */
+            color: #fff; /* Color del texto */
+            background-color: orangered; /* Nuevo color de fondo (verde) */
+            padding: 10px 15px; /* Espaciado interno */
+            border-radius: 5px; /* Bordes redondeados */
+            transition: background-color 0.3s, color 0.3s; /* Transición suave al pasar el ratón */
+        }
+
+            .close-link:hover {
+                background-color: orange; /* Cambio de color al pasar el ratón (verde más oscuro) */
+            }
+
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a class="navbar-brand" asp-area="" asp-controller="EventoA" asp-action="Index">
+            <img src="/images/LogoDef_GO.png" alt="Logo de OEED" width="50" height="50">
+            OEED
+        </a>
+        <ul class="navbar-nav flex-column mt-4">
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="EventoA" asp-action="HomeIndex">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="EventoA" asp-action="Index">Eventos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="EventoA" asp-action="Estadisticas">Estadisticas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Usuario" asp-action="Index">Usuarios</a>
+            </li>
+            <li>
+                <a class="nav-link" asp-area="" asp-controller="EventoA" asp-action="IndexFin"> Eventos finalizados </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header class="empty-bar">
+            <div style="margin-left: auto;">
+                <a class="nav-link text-white profile-link" style="display: inline-block; margin-right: 10px;" asp-area="" asp-controller="Login" asp-action="PerfilUsuarioA">@UsuarioG.NombrePfUsuario</a>
+                <a class="nav-link text-white close-link" style="display: inline-block;" asp-area="" asp-controller="Login" asp-action="Index">Cerrar sesión</a>
+            </div>
+        </header>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                &copy; @DateTime.Now.Year - OEED - INSTITUTO TECNOLOGICO DE TEPIC
+            </div>
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

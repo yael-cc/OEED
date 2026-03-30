@@ -1,0 +1,109 @@
+﻿@model IEnumerable<OEED_ITT.Models.Evento>
+
+@{
+    ViewData["Title"] = "Lista de Eventos"; // Título personalizado para esta vista
+    ViewData["BackgroundColor"] = "#EAF6EA"; // Color de fondo
+    ViewData["TextColor"] = "#537052"; // Color de texto
+    ViewData["TableColor"] = "#859C80"; // Color de la tabla
+}
+<style>
+    body {
+        background-color: @ViewData["BackgroundColor"];
+        color: @ViewData["TextColor"];
+        font-family: Arial, sans-serif; /* Tipo de fuente */
+        font-size: 16px; /* Tamaño de fuente general */
+    }
+
+    .table {
+        background-color: @ViewData["TableColor"];
+        width: 100%; /* Ancho completo de la tabla */
+    }
+
+        .table th {
+            color: #EAF6EA; /* Color de texto personalizado */
+            text-align: center; /* Alinear texto al centro */
+            font-size: 24px; /* Tamaño de fuente para los encabezados */
+            font-weight: bold; /* Negrita para los encabezados */
+            padding: 10px; /* Espaciado interior de los encabezados */
+        }
+
+        .table td {
+            color: #FAFFF9; /* Color de texto personalizado */
+            vertical-align: middle; /* Alinear verticalmente el contenido */
+            white-space: nowrap; /* Evitar el salto de línea */
+            overflow: hidden; /* Ocultar el exceso de texto */
+            text-overflow: ellipsis; /* Mostrar puntos suspensivos si el texto es demasiado largo */
+            font-size: 26px; /* Tamaño de fuente para el contenido */
+            padding: 20px; /* Espaciado interior del contenido */
+        }
+
+        .table img {
+            max-width: 500px; /* Ancho máximo de la imagen */
+            max-height: 500px; /* Altura máxima de la imagen */
+            
+        }
+
+        .table tr {
+            margin-bottom: 100px;
+            border-bottom: 70px solid #EAF6EA; /* Espacio que existe entre registros de la fila */
+        }
+
+    .title-container {
+        margin-bottom: 20px; /* Espaciado inferior del contenedor */
+        text-align: center; /* Alinear texto al centro */
+    }
+
+    .button-details {
+        background-color: #537052;
+        color: #ffffff;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 20px; /* Tamaño de fuente para los botones */
+    }
+
+    .table-div {
+        font-size: 26px;
+    }
+
+        .button-details:hover {
+            background-color: #475148;
+        }
+</style>
+
+<div class="title-container">
+    <h1>
+        Lista de eventos <br>
+    </h1>
+</div>
+
+<div class="container">
+    <table class="table">
+        <thead>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="@Html.DisplayFor(modelItem => item.Imagen)" alt="Evento Imagen" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreEvento) <br>
+                        <br>
+                        Fecha: @Html.DisplayFor(modelItem => item.FechaEvento) <br>
+                        Estado: @Html.DisplayFor(modelItem => item.oEstado.NombreEstadoEvento) <br>
+                        Tipo: @Html.DisplayFor(modelItem => item.oTipoEvento.NombreTipoEvento) <br>
+                        <br>
+                        <a asp-action="Details" asp-route-id="@item.IdEvento" class="button-details">Ver detalles</a> <br>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

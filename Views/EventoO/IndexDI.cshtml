@@ -1,0 +1,90 @@
+﻿@model IEnumerable<OEED_ITT.Models.DepartamentoInvitado>
+@using OEED_ITT.Helpers;
+
+@{
+    Layout = "~/Views/Shared/_LayoutO.cshtml";
+    ViewData["Title"] = "Lista de Departamentos Invitados";
+}
+<style>
+    .empty-message {
+        font-style: italic;
+        color: #475148;
+        margin-top: 10px;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .form-container {
+        margin: 20px auto;
+        max-width: 600px;
+        text-align: center;
+    }
+
+        .form-container input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: calc(100% - 110px);
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .form-container button {
+            padding: 8px 16px;
+            background-color: #537052;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+            .form-container button:hover {
+                background-color: #475148;
+            }
+</style>
+
+<h1>@ViewData["Title"]</h1>
+<br>
+
+<div class="container form-container">
+    <form method="post" action="@Url.Action("CreateDI", "EventoO")">
+        <input type="hidden" name="idEvento" value="@ViewData["idEvento"]">
+        <select name="idDepartamento" class="form-control" asp-items="ViewBag.Iddepartamento"></select><br>
+        <button type="submit">Agregar</button>
+    </form>
+    <p style="color: red;">@UsuarioG.mensajeError</p>
+</div>
+
+@if(Model.Any()){
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Clave del departamento</th>
+                <th>Nombre del departamento</th>
+                <th>Descripcion del departamento</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var departamento in Model)
+            {
+                <tr>
+                    <td>@departamento.IdDepartamento</td>
+                    <td>@departamento.IdDepartamentoNavigation.Nombre</td>
+                    <td>@departamento.IdDepartamentoNavigation.Descripcion</td>
+                    <td> Borrar</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    UsuarioG.vaciarMensaje();
+}
+else
+{
+    <div class="empty-message">
+        <br>
+        No se han seleccionado departamentos invitados.<br>
+        Actualmente este evento esta disponible para todos los departamentos.
+    </div>
+}

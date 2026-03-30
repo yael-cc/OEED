@@ -1,0 +1,140 @@
+﻿@model OEED_ITT.Helpers.UsuarioE
+@using OEED_ITT.Helpers
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Inicio de sesion";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/Fondo.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #FAFFF9;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: rgba(83, 112, 82, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .login-header img {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .login-header h1 {
+            color: #FAFFF9;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            color: #FAFFF9;
+            font-weight: bold;
+        }
+
+        .form-control {
+            background-color: #EAF6EA;
+            color: #537052;
+            border: 1px solid #475148;
+        }
+
+            .form-control:focus {
+                background-color: #FAFFF9;
+                color: #537052;
+                border-color: #475148;
+                box-shadow: none;
+            }
+
+        .btn-primary {
+            background-color: #3e6f3e;
+            border-color: #537052;
+            color: #FAFFF9;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Agregamos transición suave */
+        }
+
+            .btn-primary:hover {
+                background-color: #537052;
+                border-color: #3e6f3e;
+                color: #FFFFFF;
+            }
+
+        .text-danger {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <img src="/images/LogoDef_GO.png" alt="Logo OEED" />
+            <h1>Organizador Escolar de Eventos Digital</h1>
+        </div>
+
+        <h2 class="text-white">@ViewData["Title"]</h2>
+
+        @using (Html.BeginForm("SetUsuarioG", "Login", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label for="IdUsuario">Número de control:</label>
+                <input type="text" id="IdUsuario" name="IdUsuario" class="form-control" />
+                @Html.ValidationMessageFor(model => model.IdUsuario, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label for="ContrasenaUsuario">Contraseña:</label>
+                <input type="password" id="ContrasenaUsuario" name="ContrasenaUsuario" class="form-control" />
+                @Html.ValidationMessageFor(model => model.ContrasenaUsuario, "", new { @class = "text-danger" })
+            </div>
+            <p style="color: white;">@UsuarioG.mensajeError</p>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+            </div>
+            <a class="btn btn-primary" asp-area="" asp-controller="Login" asp-action="CambiarPassword">Cambiar contraseña</a>
+            UsuarioG.vaciarMensaje();
+            UsuarioG.vaciarUsuario();
+        }
+    </div>
+    <div>
+        
+    </div>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

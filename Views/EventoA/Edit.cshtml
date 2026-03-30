@@ -1,0 +1,170 @@
+﻿@model OEED_ITT.Models.Evento
+@{
+    Layout = "~/Views/Shared/_LayoutA.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #EAF6EA;
+            color: #537052;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        h4 {
+            color: #537052;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            color: #537052;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #537052;
+            border-color: #537052;
+        }
+
+            .btn-primary:hover {
+                background-color: #475148;
+                border-color: #475148;
+            }
+
+        .text-danger {
+            color: red;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        .card-header {
+            background-color: #537052;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .btn-secondary {
+            background-color: #A6B1A6;
+            border-color: #A6B1A6;
+        }
+
+            .btn-secondary:hover {
+                background-color: #8B998B;
+                border-color: #8B998B;
+            }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        Editar Evento
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="IdEvento" />
+
+                            <div class="form-group">
+                                <label asp-for="NombreEvento" class="control-label">Nombre del evento</label>
+                                <input asp-for="NombreEvento" class="form-control" />
+                                <span asp-validation-for="NombreEvento" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="DescripcionEvento" class="control-label">Descripción</label>
+                                <input asp-for="DescripcionEvento" class="form-control" />
+                                <span asp-validation-for="DescripcionEvento" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="FechaEvento" class="control-label">Fecha del evento</label>
+                                <input asp-for="FechaEvento" class="form-control" type="date" />
+                                <span asp-validation-for="FechaEvento" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="IdTipoEvento" class="control-label">Tipo de evento</label>
+                                <select asp-for="IdTipoEvento" class="form-control" asp-items="ViewBag.IdTipoEvento"></select>
+                                <span asp-validation-for="IdTipoEvento" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="HoraInicioEvento" class="control-label">Hora de inicio</label>
+                                <input asp-for="HoraInicioEvento" class="form-control" />
+                                <span asp-validation-for="HoraInicioEvento" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="HoraFinEvento" class="control-label">Hora de finalización</label>
+                                <input asp-for="HoraFinEvento" class="form-control" />
+                                <span asp-validation-for="HoraFinEvento" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="IdlugarEvento" class="control-label">Lugar del evento</label>
+                                <select asp-for="IdlugarEvento" class="form-control" asp-items="ViewBag.IdlugarEvento"></select>
+                                <span asp-validation-for="IdlugarEvento" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="IddepartamentoOrigen" class="control-label">Departamento encargado</label>
+                                <select asp-for="IddepartamentoOrigen" class="form-control" asp-items="ViewBag.IddepartamentoOrigen"></select>
+                                <span asp-validation-for="IddepartamentoOrigen" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="IdEstadoEvento" class="control-label">Estado del evento</label>
+                                <select asp-for="IdEstadoEvento" class="form-control" asp-items="ViewBag.IdEstadoEvento"></select>
+                                <span asp-validation-for="IdEstadoEvento" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="NumMaxEvento" class="control-label">Número máximo de invitados</label>
+                                <input asp-for="NumMaxEvento" class="form-control" />
+                                <span asp-validation-for="NumMaxEvento" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="imagenFile">Imagen del Evento</label>
+                                <input type="file" name="imagenFile" class="form-control" />
+                                <span asp-validation-for="Imagen" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Guardar" class="btn btn-primary btn-block" />
+                            </div>
+                        </form>
+                        <div class="mt-3">
+                            <a asp-action="Index" class="btn btn-secondary btn-block">Regresar al listado</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

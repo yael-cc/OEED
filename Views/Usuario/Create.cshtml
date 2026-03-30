@@ -1,0 +1,154 @@
+﻿@model OEED_ITT.Models.Usuario
+
+@{
+    Layout = "~/Views/Shared/_LayoutA.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Crear Usuario</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EAF6EA;
+            color: #475148;
+            margin: 0;
+        }
+
+        .create-user-container {
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+            color: #475148;
+            margin: 0;
+            padding: 20px;
+        }
+
+        legend {
+            font-size: 24px;
+            color: #537052;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            font-weight: bold;
+            color: #537052;
+        }
+
+        .btn-primary {
+            background-color: #537052;
+            border-color: #537052;
+        }
+
+            .btn-primary:hover {
+                background-color: #475148;
+                border-color: #475148;
+            }
+
+        .btn-secondary {
+            background-color: #FFFFFF;
+            border-color: #537052;
+            color: #537052;
+        }
+
+            .btn-secondary:hover {
+                background-color: #F0F0F0;
+                color: #475148;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="create-user-container">
+        <legend>Creación de Usuario</legend>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label asp-for="IdUsuario" class="control-label">ID Usuario</label>
+                            <input asp-for="IdUsuario" class="form-control" />
+                            <span asp-validation-for="IdUsuario" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="NombreUsuario" class="control-label">Nombre</label>
+                            <input asp-for="NombreUsuario" class="form-control" />
+                            <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ApellidoUsuario" class="control-label">Apellido</label>
+                            <input asp-for="ApellidoUsuario" class="form-control" />
+                            <span asp-validation-for="ApellidoUsuario" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Idrol" class="control-label">Rol</label>
+                            <select asp-for="Idrol" class="form-control" asp-items="ViewBag.Idrol"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Iddepartamento" class="control-label">Departamento</label>
+                            <select asp-for="Iddepartamento" class="form-control" asp-items="ViewBag.Iddepartamento"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="NombrePfUsuario" class="control-label">Nombre de perfil</label>
+                            <input asp-for="NombrePfUsuario" class="form-control" />
+                            <span asp-validation-for="NombrePfUsuario" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="CorreoUsuario" class="control-label">Correo</label>
+                            <input asp-for="CorreoUsuario" class="form-control" />
+                            <span asp-validation-for="CorreoUsuario" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ContrasenaUsuario" class="control-label">Contraseña</label>
+                            <input asp-for="ContrasenaUsuario" type="password"  class="form-control" />
+                            <span asp-validation-for="ContrasenaUsuario" class="text-danger"></span>
+                        </div>
+
+                    </fieldset>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Crear Usuario</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+</html>
